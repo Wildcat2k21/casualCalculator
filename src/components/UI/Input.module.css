@@ -1,0 +1,16 @@
+.input-cell {
+    box-sizing: border-box;
+    width: 50px;
+    display: block;
+    text-align: center;
+    color: white;
+    border: 0;
+    background-color: transparent;
+    border-bottom: 2px solid transparent;
+    transition: .25s border-color ease;
+    outline: none;
+}
+
+.input-cell:focus {
+    border-bottom: 2px solid red;
+}

@@ -1,0 +1,25 @@
+{
+    "extends": ["airbnb", "prettier"],
+    "plugins": ["react", "react-hooks", "jsx-a11y", "import", "prettier"],
+    "rules": {
+        "prettier/prettier": ["error"],
+        "react/react-in-jsx-scope": "off",
+        "react/prop-types": "off",
+        "import/prefer-default-export": "off",
+        "no-console": "warn",
+        "no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
+        "react/jsx-props-no-spreading": "off",
+        "react-hooks/rules-of-hooks": "error",
+        "react-hooks/exhaustive-deps": "warn",
+        "react/jsx-filename-extension": ["error", { "extensions": [".js", ".jsx"] }],
+        "import/no-named-as-default": "off",
+        "import/no-named-as-default-member": "off",
+        "import/no-dynamic-require": "off",
+        "default-param-last": "off"
+    },
+    "env": {
+        "browser": true,
+        "es2021": true,
+        "jest": true
+    }
+}
