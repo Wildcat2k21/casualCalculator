@@ -4,10 +4,8 @@ import { useCellValue } from "../../hooks/useCellValue";
 
 // Компонент с forwardRef
 const TableCell = forwardRef(({ cellType, cellIndex, labelledby }, ref) => {
-  const { inputVal, handleInputChange, handleInputBlur } = useCellValue(
-    cellType,
-    cellIndex,
-  );
+  const { inputVal, handleInputChange, handleKeyPress, handleInputBlur } =
+    useCellValue(cellType, cellIndex);
 
   return (
     <td className="table-data">
@@ -15,6 +13,7 @@ const TableCell = forwardRef(({ cellType, cellIndex, labelledby }, ref) => {
         ref={ref}
         value={inputVal}
         onChange={handleInputChange}
+        onKeyDown={handleKeyPress}
         onBlur={handleInputBlur}
         labelledby={labelledby}
       />
