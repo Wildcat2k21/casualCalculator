@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { setXvalue, updXValue, removeXvalue } from "../store/xArrReducer";
 import { setPvalue, updPValue, removePvalue } from "../store/pArrReducer";
@@ -29,23 +29,22 @@ export const useCellValue = (cellType, cellIndex) => {
     [cellIndex, cellType, dispatch],
   );
 
-  const handleInputChange = (e) => {
+  // Обработка изменения инпута
+  const handleInputChange = useCallback((e) => {
     setInputVal(e.target.value);
-  };
+  }, []);
 
-  const handleKeyPress = (e) => {
+  // Установка значения и потеря фокуса при нажатии Enter
+  const handleEnterPress = useCallback((e) => {
     if (e.key === "Enter") {
       e.preventDefault();
-
-      // Установка значения и потеря фокуса при нажатии Enter
       setInputVal(e.target.value);
       e.target.blur();
     }
+  }, []);
 
-    // other Keys
-  };
-
-  const handleInputBlur = () => {
+  // Обработка потери фокуса при выборе другой ячейки
+  const handleInputBlur = useCallback(() => {
     const fixedVal = Number(inputVal);
     if (!Number.isNaN(fixedVal)) {
       dispatch(
@@ -56,7 +55,7 @@ export const useCellValue = (cellType, cellIndex) => {
     }
 
     setInputVal(value);
-  };
+  }, [inputVal, dispatch, cellType, cellIndex, value]);
 
-  return { inputVal, handleInputChange, handleKeyPress, handleInputBlur };
+  return { inputVal, handleInputChange, handleEnterPress, handleInputBlur };
 };

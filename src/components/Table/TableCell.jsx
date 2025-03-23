@@ -4,7 +4,7 @@ import { useCellValue } from "../../hooks/useCellValue";
 
 // Компонент с forwardRef
 const TableCell = forwardRef(({ cellType, cellIndex, labelledby }, ref) => {
-  const { inputVal, handleInputChange, handleKeyPress, handleInputBlur } =
+  const { inputVal, handleInputChange, handleEnterPress, handleInputBlur } =
     useCellValue(cellType, cellIndex);
 
   return (
@@ -13,7 +13,7 @@ const TableCell = forwardRef(({ cellType, cellIndex, labelledby }, ref) => {
         ref={ref}
         value={inputVal}
         onChange={handleInputChange}
-        onKeyDown={handleKeyPress}
+        onKeyDown={handleEnterPress}
         onBlur={handleInputBlur}
         labelledby={labelledby}
       />
