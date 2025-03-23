@@ -33,6 +33,18 @@ export const useCellValue = (cellType, cellIndex) => {
     setInputVal(e.target.value);
   };
 
+  const handleKeyPress = (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+
+      // Установка значения и потеря фокуса при нажатии Enter
+      setInputVal(e.target.value);
+      e.target.blur();
+    }
+
+    // other Keys
+  };
+
   const handleInputBlur = () => {
     const fixedVal = Number(inputVal);
     if (!Number.isNaN(fixedVal)) {
@@ -46,5 +58,5 @@ export const useCellValue = (cellType, cellIndex) => {
     setInputVal(value);
   };
 
-  return { inputVal, handleInputChange, handleInputBlur };
+  return { inputVal, handleInputChange, handleKeyPress, handleInputBlur };
 };
