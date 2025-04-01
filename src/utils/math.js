@@ -33,3 +33,10 @@ export const calcEmpericFunk = (tableData) => {
   const empericLabels = [xArr[0] - 1, ...xArr, xArr[xArr.length - 1] + 1];
   return { empericData, empericLabels };
 };
+
+// Расчет распределение случайной величины
+export const calcDestribution = (tableData) => {
+  const { xArr, pArr } = tableData;
+  const destributionData = xArr.map((xData, index) => xData * pArr[index]);
+  return { destributionData, destributionLabels: xArr };
+};

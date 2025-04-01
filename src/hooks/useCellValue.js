@@ -29,23 +29,44 @@ export const useCellValue = (cellType, cellIndex) => {
     [cellIndex, cellType, dispatch],
   );
 
+  // Быстрый ввод чисел с точкой 0.x
+  const fastZeroLeftNumConvert = useCallback((newVal) => {
+    if (
+      !Number.isNaN(
+        Number(newVal) &&
+          newVal.length > 3 &&
+          newVal[0] === "0" &&
+          newVal[1] !== ".",
+      )
+    ) {
+      return `0.${newVal.slice(1)}`;
+    }
+
+    return newVal;
+  }, []);
+
   // Обработка изменения инпута
   const handleInputChange = useCallback((e) => {
     setInputVal(e.target.value);
   }, []);
 
   // Установка значения и потеря фокуса при нажатии Enter
-  const handleEnterPress = useCallback((e) => {
-    if (e.key === "Enter") {
-      e.preventDefault();
-      setInputVal(e.target.value);
-      e.target.blur();
-    }
-  }, []);
+  const handleEnterPress = useCallback(
+    (e) => {
+      if (e.key === "Enter") {
+        e.preventDefault();
+        const fastZeroLeftNum = fastZeroLeftNumConvert(e.target.value);
+        setInputVal(fastZeroLeftNum);
+        e.target.blur();
+      }
+    },
+    [fastZeroLeftNumConvert],
+  );
 
   // Обработка потери фокуса при выборе другой ячейки
   const handleInputBlur = useCallback(() => {
-    const fixedVal = Number(inputVal);
+    const fastZeroLeftNum = fastZeroLeftNumConvert(inputVal);
+    const fixedVal = Number(fastZeroLeftNum);
     if (!Number.isNaN(fixedVal)) {
       dispatch(
         cellType === "X"
@@ -55,7 +76,13 @@ export const useCellValue = (cellType, cellIndex) => {
     }
 
     setInputVal(value);
-  }, [inputVal, dispatch, cellType, cellIndex, value]);
+  }, [inputVal, dispatch, fastZeroLeftNumConvert, cellType, cellIndex, value]);
 
-  return { inputVal, handleInputChange, handleEnterPress, handleInputBlur };
+  return {
+    inputVal,
+    handleInputChange,
+    fastZeroLeftNumConvert,
+    handleEnterPress,
+    handleInputBlur,
+  };
 };

@@ -2,31 +2,15 @@ import React from "react";
 import "./style.css";
 import "katex/dist/katex.min.css";
 import { useSelector } from "react-redux";
-import { Line } from "react-chartjs-2";
 import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Legend,
-} from "chart.js"; // Импортируем необходимые элементы Chart.js
-import { m0Equation, m0Xsquare, calcEmpericFunk } from "../utils/math";
-import { chartData, chartOptions } from "../utils/constants";
+  m0Equation,
+  m0Xsquare,
+  calcEmpericFunk,
+  calcDestribution,
+} from "../utils/math";
 import Equation from "./Equation";
-
-// Регистрируем необходимые компоненты Chart.js
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Legend,
-);
+import LineChart from "./charts/LineChart";
+import ColumnChart from "./charts/ColumnChart";
 
 function Calculator() {
   const tableDataState = useSelector((state) => state);
@@ -51,8 +35,8 @@ function Calculator() {
 
   // Расчет эмперической функции
   const { empericData, empericLabels } = calcEmpericFunk(tableDataState);
-  const data = chartData(empericLabels, "Эмперическая функция", empericData);
-  const options = chartOptions();
+  const { destributionData, destributionLabels } =
+    calcDestribution(tableDataState);
 
   return (
     <div className="equasions-wrapper">
@@ -73,14 +57,19 @@ function Calculator() {
       <Equation
         latexText={`\\sigma = \\sqrt{\\sigma^2} = \\sqrt{${dispersionVal}} ${disparsionSqrtResultString}`}
       />
+      <h2 className="eq-step-title">График распределения СВ</h2>
+      {/* Распределение случайной величины */}
+      <ColumnChart
+        data={destributionData}
+        title="Распределение СВ"
+        labels={destributionLabels}
+      />
       <h2 className="eq-step-title">График функции ЭФР</h2>
       {/* Эмперическая функция распределения */}
-      <Line
-        className="emperic-chart"
-        data={data}
-        options={options}
-        width={400}
-        height={250}
+      <LineChart
+        data={empericData}
+        title="Эмперическая функция распределения"
+        labels={empericLabels}
       />
     </div>
   );
