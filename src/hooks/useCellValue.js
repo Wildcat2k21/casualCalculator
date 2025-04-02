@@ -32,12 +32,10 @@ export const useCellValue = (cellType, cellIndex) => {
   // Быстрый ввод чисел с точкой 0.x
   const fastZeroLeftNumConvert = useCallback((newVal) => {
     if (
-      !Number.isNaN(
-        Number(newVal) &&
-          newVal.length > 3 &&
-          newVal[0] === "0" &&
-          newVal[1] !== ".",
-      )
+      !Number.isNaN(Number(newVal)) &&
+      newVal.length >= 2 &&
+      newVal[0] === "0" &&
+      newVal[1] !== "."
     ) {
       return `0.${newVal.slice(1)}`;
     }
